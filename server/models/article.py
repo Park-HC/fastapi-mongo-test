@@ -6,12 +6,16 @@ from pydantic import BaseModel, Field
 class ArticleSchema(BaseModel):
     title: str = Field(...)
     content: Union[str, None] = None
-    files: List[UploadFile] = []
+    # files: Union[UploadFile, None] = None
 
 class UpdateArticleModel(BaseModel):
     title: Optional[str]
     content: Optional[str]
-    files: Optional[List[UploadFile]] = None
+
+# class UpdateArticleModel(BaseModel):
+#     title: Optional[str]
+#     content: Optional[str]
+#     files: Optional[List[UploadFile]] = None
 
 def ResponseModel(data, message):
     return {

@@ -1,4 +1,5 @@
-from typing import List
+from typing import List, Union
+from fastapi import UploadFile, File
 
 from fastapi import APIRouter, Body
 from fastapi.encoders import jsonable_encoder
@@ -19,8 +20,12 @@ from server.models.article import (
 
 router = APIRouter()
 
+# @router.post("/uploadfiles/")
+# async def create_upload_files(files: List[UploadFile]):
+#     return {"filenames": [file.filename for file in files]}
+
 @router.post("/", response_description="Article data added into the database")
-async def add_article_data(article: ArticleSchema = Body(...)):
+async def add_article_data(article: ArticleSchema):
     article = jsonable_encoder(article)
     new_article = await add_article(article)
     return ResponseModel(new_article, "Article is successfully added")
@@ -58,8 +63,3 @@ async def delete_article_data(id: str):
         return ("successfully removed")
     return("i cannot delete it")
 
-from fastapi import UploadFile, File
-
-@router.post("/uploadfiles/")
-async def create_upload_files(files: List[UploadFile]):
-    return {"filenames": [file.filename for file in files]}
